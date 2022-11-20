@@ -12,8 +12,54 @@ export const Home = () => {
 
 	return (
 		<div className="container-fluid">
+			{/* Modal */}
+
+			<div className="modal fade" id="newStudentModal" tabIndex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+				<div className="modal-dialog">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h5 className="modal-title" id="modalLabel">Plantilla alumno nuevo</h5>
+							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div className="modal-body">
+							<form>
+								<div className="form-floating mb-2">
+									<input type="text" className="form-control" id="rut" placeholder="Rut"/>
+									<label htmlFor="rut">Rut sin puntos ni guión</label>
+								</div>
+								<div className="form-floating mb-2">
+									<input type="text" className="form-control" id="name" placeholder="Nombre"/>
+									<label htmlFor="name">Nombre</label>
+								</div>
+								<div className="form-floating mb-2">
+									<input type="text" className="form-control" id="last_name" placeholder="Apellido"/>
+									<label htmlFor="last_name">Apellido</label>
+								</div>
+								<div className="form-floating mb-2">
+									<input type="text" className="form-control" id="grade" placeholder="Grado"/>
+									<label htmlFor="grade">Grado</label>
+								</div>
+								<div className="form-floating mb-2">
+									<input type="email" className="form-control" id="email" placeholder="Email"/>
+									<label htmlFor="email">Email</label>
+								</div>
+								<div className="form-floating">
+									<input type="date" className="form-control" id="birth_date" placeholder="Fecha Nacimiento"/>
+									<label htmlFor="birth_date">Fecha Nacimiento</label>
+								</div>
+								<input type="hidden" value="true"/>
+							</form>
+						</div>
+						<div className="modal-footer">
+							<button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" className="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>			
+			{/* Modal */}
 			<h2 className="text-center">Panel de control</h2>
-			<div className="d-flex justify-content-center mb-2">
+			<div className="d-flex flex-sm-row flex-column justify-content-center mb-2">
 				<select name="select" onChange={handleSelect} defaultValue="">
 					<option value="" defaultValue disabled hidden>Filtrar por:</option>
 					<option value="rut">Rut</option>
@@ -23,46 +69,46 @@ export const Home = () => {
 					<option value="value3">Email</option>
 				</select>
 				<input type="text" className="me-3" placeholder="buscar" />
-				<button type="button" className="btn btn-success add">Agregar Alumno</button>
+				<button type="button" className="btn btn-success add" data-bs-toggle="modal" data-bs-target="#newStudentModal">Agregar Alumno</button>
 			</div>
-			{!!store?.students 
-			?(			
-			<div className="table-responsive">
-				<table className="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Rut</th>
-							<th scope="col">Nombre</th>
-							<th scope="col">Apellido</th>
-							<th scope="col">Grado</th>
-							<th scope="col">Email</th>
-							<th scope="col">Fecha Nacimiento</th>
-							<th scope="col">Editar</th>
-							<th scope="col">Eliminar</th>
-						</tr>
-					</thead>
-					<tbody className="text-center">
-						{store.students.map((item,index)=>{
-							return (
-								<tr key={index}>
-									<th scope="row">{index+1}</th>
-									<td>{item.rut}</td>
-									<td>{item.name}</td>
-									<td>{item.last_name}</td>
-									<td>{item.grade}</td>
-									<td>{item.email}</td>
-									<td>{item.birth_date}</td>
-									<td><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/738/738880.png" alt="editar"/></td>
-									<td><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/8568/8568248.png" alt="eliminar"/></td>
+			{!!store?.students
+				? (
+					<div className="table-responsive">
+						<table className="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Rut</th>
+									<th scope="col">Nombre</th>
+									<th scope="col">Apellido</th>
+									<th scope="col">Grado</th>
+									<th scope="col">Email</th>
+									<th scope="col">Fecha Nacimiento</th>
+									<th scope="col">Editar</th>
+									<th scope="col">Eliminar</th>
 								</tr>
-							)
-						})}
-					</tbody>
-				</table>
-			</div>) : (
-				<h2 className="text-center">No hay alumnos. Agregalos <button type="button" className="btn">Aquí</button></h2>
-			)
+							</thead>
+							<tbody className="text-center">
+								{store.students.map((item, index) => {
+									return (
+										<tr key={index}>
+											<th scope="row">{index + 1}</th>
+											<td>{item.rut}</td>
+											<td>{item.name}</td>
+											<td>{item.last_name}</td>
+											<td>{item.grade}</td>
+											<td>{item.email}</td>
+											<td>{item.birth_date}</td>
+											<td><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/738/738880.png" alt="editar" /></td>
+											<td><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/8568/8568248.png" alt="eliminar" /></td>
+										</tr>
+									)
+								})}
+							</tbody>
+						</table>
+					</div>) : (
+					<h2 className="text-center">No hay alumnos. Agregalos <button type="button" className="btn">Aquí</button></h2>
+				)
 
 			}
 		</div>
