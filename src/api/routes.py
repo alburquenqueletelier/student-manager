@@ -101,4 +101,34 @@ def get_student():
         return jsonify({
             'students': [student.serialize() for student in students]
         }), 200
-    
+
+## Edit Student ##
+@api.route('/student/edit/<string:rut>', methods=['PUT'])
+def edit_student(rut):
+    data = request.get_json()
+    if len(rut) < 7 or len(rut) > 8:
+        return jsonify({
+            'message': f'Rut invalido'
+        }), 400
+    try:
+        student = db.session.query(Student).filter_by(rut=rut).first()
+        if not student:
+            return jsonify({
+                'message': f'No existe alumno con rut={rut}'
+            }), 200
+        student.rut = data["rut"] or student.rut
+        student.name = data["name"] or student.name
+        student.last_name = data["last_name"] or student.last_name
+        student.grade = data["grade"] or student.grade
+        student.birth_date = data["birth_date"] or student.birth_date
+        student.email = data["email"] or student.email
+        student.is_active = data["is_active"] or student.is_active
+        db.session.commit()
+        return jsonify({
+            'message': 'Se edito alumno correctamente'
+        }), 200
+    except Exception as error:
+        print(error)
+        return jsonify({
+            'message': f'Error, no se pudo editar alumno rut={rut}'
+        }), 500
