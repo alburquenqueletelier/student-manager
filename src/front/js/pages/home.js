@@ -46,8 +46,12 @@ export const Home = () => {
 
 	};
 
-	const handleDelete = (e) =>{
-
+	const handleDelete = async (rut) =>{
+		if (rut.length < 8 || rut.length > 9){
+			return alert("Rut invalido");
+		};
+		await actions.deleteStudent(rut);
+		await actions.getStudents();
 	};
 
 	return (
@@ -58,7 +62,7 @@ export const Home = () => {
 				<div className="modal-dialog">
 					<div className="modal-content">
 						<div className="modal-header">
-							<h5 className="modal-title" id="modalLabel">Plantilla alumno nuevo</h5>
+							<h5 className="modal-title" id="modalLabel">Plantilla alumno</h5>
 							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<form onSubmit={handleCreate}>
@@ -138,7 +142,7 @@ export const Home = () => {
 											<td>{item.grade}</td>
 											<td>{item.email}</td>
 											<td>{item.birth_date}</td>
-											<td><button type="button" className="btn p-0 d-flex m-auto" onClick={(e)=>handleEdit(item.rut)}><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/738/738880.png" alt="editar" /></button></td>
+											<td><button type="button" className="btn p-0 d-flex m-auto" onClick={(e)=>handleEdit(item)}><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/738/738880.png" alt="editar" /></button></td>
 											<td><button type="button" className="btn p-0 d-flex m-auto" onClick={(e)=>handleDelete(item.rut)}><img className="option-img" src="https://cdn-icons-png.flaticon.com/512/8568/8568248.png" alt="eliminar" /></button></td>
 										</tr>
 									)

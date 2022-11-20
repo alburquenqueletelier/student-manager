@@ -33,14 +33,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					if (resp.status == 200){
 						const data = await resp.json();
-						return 200;
+						return data;
 					} else {
 						throw new Error(resp);
 					}
 				} catch (error) {
 					console.log("Error: ", error);
 				}
-			}
+			},
+			deleteStudent: async (rut)=>{
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "student/delete/" + rut, {
+						method: 'DELETE',
+						headers: {
+							"Content-type": "application/json"
+						}
+					});
+					if (resp.status == 200){
+						const data = await resp.json();
+						return data;
+					} else {
+						throw new Error(resp);
+					}
+				} catch (error) {
+					console.log("Error: ", error);
+				}
+			},
 
 		}
 	};
