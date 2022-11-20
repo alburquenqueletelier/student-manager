@@ -5,24 +5,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// localstorage functions
-			loadStudents: ()=>{
+			loadStudents: () => {
 				const data = JSON.parse(localStorage.getItem('students'));
 				console.log(data);
 				setStore(data);
 			},
-			getStudents: async ()=>{
-				try{
-					console.log(process.env.BACKEND_URL);
-					const resp= await fetch(process.env.BACKEND_URL + "student");
+			// Api Functions
+			getStudents: async () => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "student");
 					const data = await resp.json();
 					setStore(data);
 					localStorage.setItem('students', JSON.stringify(data));
 					return data;
-				} catch(error){
+				} catch (error) {
 					console.log("Error: ", error);
 				};
 			},
-			
+			newStudent: async (data) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "student/create", {
+						method: 'POST',
+						headers: {
+							"Content-type": "application/json"
+						},
+						body: JSON.stringify(data)
+					});
+					if (resp.status == 200){
+						const data = await resp.json();
+						return 200;
+					} else {
+						throw new Error(resp);
+					}
+				} catch (error) {
+					console.log("Error: ", error);
+				}
+			}
+
 		}
 	};
 };

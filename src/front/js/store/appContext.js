@@ -22,6 +22,7 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
+			// state.actions.getStudents();
 			if (localStorage.getItem('students')){
 				state.actions.loadStudents();
 			} else {
