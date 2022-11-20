@@ -106,7 +106,6 @@ def get_student():
 @api.route('/student/edit/<string:rut>', methods=['PUT'])
 def edit_student(rut):
     data = request.get_json()
-    print(len(rut))
     if len(rut) < 8 or len(rut) > 9:
         return jsonify({
             'message': f'Rut invalido'
@@ -132,4 +131,28 @@ def edit_student(rut):
         print(error)
         return jsonify({
             'message': f'Error, no se pudo editar alumno rut={rut}'
+        }), 500
+
+## Delete Student ##
+@api.route('/student/delete/<string:rut>', methods=['DELETE'])
+def delete_student(rut):
+    if len(rut) < 8 or len(rut) > 9:
+        return jsonify({
+            'message': f'Rut invalido'
+        }), 400
+    try:
+        student = db.session.query(Student).filter_by(rut=rut).first()
+        if not student:
+            return jsonify({
+                'message': f'No existe alumno con rut={rut}'
+            }), 400
+        db.session.delete(student)
+        db.session.commit()
+        return jsonify({
+            'message': f'Se elimino estudiante rut={rut}'
+        }), 200
+    except Exception as error:
+        print(error)
+        return jsonify({
+            'message': 'No fue posible eliminar al alumno'
         }), 500
