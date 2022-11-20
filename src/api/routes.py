@@ -106,7 +106,8 @@ def get_student():
 @api.route('/student/edit/<string:rut>', methods=['PUT'])
 def edit_student(rut):
     data = request.get_json()
-    if len(rut) < 7 or len(rut) > 8:
+    print(len(rut))
+    if len(rut) < 8 or len(rut) > 9:
         return jsonify({
             'message': f'Rut invalido'
         }), 400
@@ -115,7 +116,7 @@ def edit_student(rut):
         if not student:
             return jsonify({
                 'message': f'No existe alumno con rut={rut}'
-            }), 200
+            }), 400
         student.rut = data["rut"] or student.rut
         student.name = data["name"] or student.name
         student.last_name = data["last_name"] or student.last_name
