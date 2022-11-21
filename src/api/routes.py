@@ -35,10 +35,10 @@ def create_student():
             }), 400
         new_student = Student()
         new_student.rut = data["rut"]
-        new_student.name = data["name"]
-        new_student.last_name = data["last_name"]
+        new_student.name = data["name"].capitalize()
+        new_student.last_name = data["last_name"].capitalize()
         new_student.birth_date = data["birth_date"]
-        new_student.grade = data["grade"]
+        new_student.grade = data["grade"].capitalize()
         new_student.email = data["email"]
         new_student.is_active = True
         db.session.add(new_student)
@@ -66,7 +66,7 @@ def get_student():
                 try:
                     student = db.session.query(Student).filter_by(rut=rut).first()
                     return jsonify({
-                        'student': student.serialize()
+                        'students': [student.serialize()]
                     }), 200
                 except:
                     return jsonify({
@@ -117,9 +117,9 @@ def edit_student(rut):
                 'message': f'No existe alumno con rut={rut}'
             }), 400
         student.rut = data["rut"] or student.rut
-        student.name = data["name"] or student.name
-        student.last_name = data["last_name"] or student.last_name
-        student.grade = data["grade"] or student.grade
+        student.name = data["name"].capitalize() or student.name.capitalize()
+        student.last_name = data["last_name"].capitalize() or student.last_name.capitalize()
+        student.grade = data["grade"].capitalize() or student.grade.capitalize()
         student.birth_date = data["birth_date"] or student.birth_date
         student.email = data["email"] or student.email
         student.is_active = data["is_active"] or student.is_active
